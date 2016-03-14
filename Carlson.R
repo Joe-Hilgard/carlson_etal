@@ -5,19 +5,54 @@ dat = read.csv("tabula-Carlson et al (1990).csv")
 dat = dat %>% 
   filter(!is.na(n1))
 
-# mean, median cell size
-summary(c(dat$n1, dat$n2))
-
 # make SE cohen's d
 term1 = ((dat$n1 + dat$n2)/(dat$n1*dat$n2)) + (dat$Effect.size^2)/(2*(dat$n1 + dat$n2 - 2))
 term2 = (dat$n1 + dat$n2)/(dat$n1 + dat$n2 - 2)
 dat$d.se = sqrt(term1*term2)
 
-# funnel plot and meta-analysis?
+# Make weapons cue subset
+dat.wep = dat %>% 
+  filter(Weapon.cue == "Yes")
+
+# mean, median cell size
+summary(c(dat$n1, dat$n2))
+summary(c(dat.wep$n1, dat.wep$n2))
+
+
+
+# funnel plot and meta-analysis ----
+# Overall cue effects
 m1 = rma(yi = Effect.size, sei = d.se, data = dat)
 m1
 m1.fe = rma(yi = Effect.size, sei = d.se, data = dat, method = "FE")
 m1.fe
 
 funnel(m1.fe, 
+       level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+
+# Exposure to weapons
+m2 = rma(yi = Effect.size, sei = d.se, data = dat.wep)
+m2
+m2.fe = rma(yi = Effect.size, sei = d.se, data = dat.wep, method = "FE")
+m2.fe
+
+funnel(m2.fe, 
+       level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+
+# Exposure to weapons, low sophisitcation AND low apprehension
+m3 = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = low.sophis.and.apprehension == "Yes")
+m3
+m3.fe = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = low.sophis.and.apprehension == "Yes",
+            method = "FE")
+m3.fe
+
+m4 = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = high.sophis.or.apprehension == "Yes")
+m4
+m4.fe = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = high.sophis.or.apprehension == "Yes",
+            method = "FE")
+m4.fe
+
+funnel(m3.fe,
+       level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+funnel(m4.fe,
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
