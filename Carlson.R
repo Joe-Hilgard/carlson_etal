@@ -54,5 +54,7 @@ m4.fe
 
 funnel(m3.fe,
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+funnel(m3.fe)
 funnel(m4.fe,
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+funnel(m4.fe)
