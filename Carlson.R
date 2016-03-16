@@ -29,6 +29,7 @@ m1.fe
 
 funnel(m1.fe, 
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+funnel(m1.fe, main = "All cue effects \n Note considerable heterogeneity")
 
 # Exposure to weapons
 m2 = rma(yi = Effect.size, sei = d.se, data = dat.wep)
@@ -38,6 +39,7 @@ m2.fe
 
 funnel(m2.fe, 
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
+funnel(m2.fe, main = "All weapon-exposure effects \n Note null results & heterogeneity")
 
 # Exposure to weapons, low sophisitcation AND low apprehension
 m3 = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = low.sophis.and.apprehension == "Yes")
@@ -46,6 +48,7 @@ m3.fe = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = low.sophis.an
             method = "FE")
 m3.fe
 
+# High sophistication OR high apprehension
 m4 = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = high.sophis.or.apprehension == "Yes")
 m4
 m4.fe = rma(yi = Effect.size, sei = d.se, data = dat.wep, subset = high.sophis.or.apprehension == "Yes",
@@ -54,7 +57,7 @@ m4.fe
 
 funnel(m3.fe,
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
-funnel(m3.fe)
+funnel(m3.fe, main = "Low awareness subgroup \n No sig. effect \n Lots of heterogeneity")
 funnel(m4.fe,
        level = c(90, 95, 99), shade = c("white", "grey75", "grey60"), refline = 0)
-funnel(m4.fe)
+funnel(m4.fe, main = "High awareness subgroup \n No sig. effect \n Heterogeneity & tiny N")
